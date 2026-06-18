@@ -1,0 +1,69 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoutes";
+
+// auth
+import Login from "./pages/Login";
+
+// admin
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminEmployees from "./pages/admin/Employees";
+import AdminDepartments from "./pages/admin/Departments";
+import AdminLeaves from './pages/admin/Leaves'
+import AdminEmployeeStatus from './pages/admin/EmployeeStatus'
+import AdminAnnouncement from './pages/admin/Announcement'
+import AdminClient from './pages/admin/Client'
+import AdminProjects from './pages/admin/Projects'
+
+// employee
+import EmployeeDashboard from "./pages/employee/Dashboard";
+import EmployeeDetails from "./pages/employee/Details";
+import EmployeeLeaves from "./pages/employee/Leave";
+import EmployeeResign from './pages/employee/Resign'
+
+// layouts
+import AdminLayout from "./components/layout/AdminLayout";
+import EmployeeLayout from "./components/layout/EmployeeLayout";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute allowedRoles={["admin", "hr"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="employees" element={<AdminEmployees />} />
+          <Route path="departments" element={<AdminDepartments />} />
+          <Route path="leaves" element={<AdminLeaves />} />
+          <Route path="employeestatus" element={<AdminEmployeeStatus />} />
+          <Route path="announcements" element={<AdminAnnouncement />} />
+          <Route path="clients" element={<AdminClient />} />
+          <Route path="projects" element={<AdminProjects />} />
+        </Route>
+
+        <Route 
+          path="/employee" 
+          element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <EmployeeLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<EmployeeDashboard />} />
+          <Route path="details" element={<EmployeeDetails />} />
+          <Route path="leaves" element={<EmployeeLeaves />} />
+          <Route path="resignation" element={<EmployeeResign />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
