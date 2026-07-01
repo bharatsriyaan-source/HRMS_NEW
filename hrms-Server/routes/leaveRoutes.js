@@ -1,43 +1,36 @@
-const express = require("express");
-const router = express.Router();
-
+const express    = require("express");
+const router     = express.Router();
+const multer     = require("multer");
+const path       = require("path");
+const verifyToken = require("../middlewares/authMiddleware");
 const leaveController = require("../controllers/leaveController");
 
-// ADD THIS
-const verifyToken = require("../middlewares/authMiddleware");
+// ─── File upload (doctor prescription) ───────────────────────────────────────
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/leave-docs"),
+  filename:    (req, file, cb) =>
+    cb(null, Date.now() + "-" + Math.round(Math.random() * 1e9) + path.extname(file.originalname)),
+});
+const upload = multer({ storage });
 
-router.get(
-  "/balance",
-  verifyToken,
-  leaveController.getBalance
-);
+// ─── Employee routes ─────────────────────────────────────────────────────────
+router.get("/balance", verifyToken, leaveController.getBalance);
+router.get("/my-requests", verifyToken, leaveController.getMyRequests);
+router.post("/apply", verifyToken, upload.single("attachment"), leaveController.applyLeave);
 
-router.get(
-  "/my-requests",
-  verifyToken,
-  leaveController.getMyRequests
-);
+// ─── Manager routes ──────────────────────────────────────────────────────────
+router.get("/pending-approvals", verifyToken, leaveController.getPendingApprovals);  
 
-router.post(
-  "/apply",
-  verifyToken,
-  leaveController.applyLeave
-);
+// ─── HR / Admin routes ────────────────────────────────────────────────────────
+router.get("/all-requests", verifyToken, leaveController.getAllRequests);            
 
-router.get(
-  "/pending-approvals",
-  leaveController.getPendingApprovals
-);
+// ─── Calendar & Holidays ──────────────────────────────────────────────────────
+router.get("/calendar", verifyToken, leaveController.getLeaveCalendar);
+router.get("/holiday-submissions", verifyToken, leaveController.getHolidaySubmissions);
+router.post("/submit-holidays", verifyToken, leaveController.submitFlexiHolidays);
 
-
-router.post(
-  "/:id/approve",
-  leaveController.approveLeave
-);
-
-router.post(
-  "/:id/reject",
-  leaveController.rejectLeave
-);
+// ─── Approve / Reject ─────────────────────────────────────────────────────────
+router.post("/:id/approve", verifyToken, leaveController.approveLeave);            
+router.post("/:id/reject", verifyToken, leaveController.rejectLeave);             
 
 module.exports = router;

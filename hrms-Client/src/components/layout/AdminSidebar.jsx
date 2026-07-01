@@ -11,6 +11,7 @@ import {
   FiLayers,
   FiChevronDown,
   FiChevronRight,
+  FiStar
 } from "react-icons/fi";
 
 const navItems = [
@@ -31,23 +32,29 @@ const navItems = [
   { label: "Employees", path: "/admin/employees", icon: <FiUsers /> },
   {
   label: "Recruitment",
-  icon: <FiUsers />,
-  children: [
-    {
-      label: "Candidates",
-      path: "/admin/Recruitment/candidates",
-    },
-    {
-      label: "Interview Pipeline",
-      path: "/admin/Recruitment/interviews",
-    },
-    {
-      label: "Selected",
-      path: "/admin/Recruitment/selected",
-    },
-  ],
-},
-{
+    icon: <FiUsers />,
+    children: [
+      {
+        label: "Candidates",
+        path: "/admin/Recruitment/candidates",
+      },
+      {
+        label: "Interview Pipeline",
+        path: "/admin/Recruitment/interviews",
+      },
+      {
+        label: "Selected",
+        path: "/admin/Recruitment/selected",
+      },
+    ],
+  },
+  { label: "TimeSheet", path: "/admin/timesheet", icon: <FiCalendar /> },
+  {
+    label: "Announcements",
+    path: "/admin/announcements-view",
+    icon: <FiStar />,
+  },
+  {
     label: "Leave Management",
     path: "/admin/leaves",
     icon: <FiCalendar />,
