@@ -27,7 +27,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/employee', employeeRoutes)
 app.use("/api/candidates", candidateRoutes);
 app.use('/api/manager', managerRoutes);
-app.use("/api/leaves", leaveRoutes);
+app.use("/api/leaves", leaveRoutes); 
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
