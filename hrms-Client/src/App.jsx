@@ -66,6 +66,7 @@ function App() {
           <Route path="employeestatus" element={<AdminEmployeeStatus />} />
           <Route path="announcements" element={<AdminAnnouncement />} />
           <Route path="announcements-view" element={<Announcements />} />
+          <Route path="announcements-view/:id" element={<Announcements />} />
           <Route path="clients" element={<AdminClient />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="/admin/Recruitment/candidates" element={<Candidates />} />
